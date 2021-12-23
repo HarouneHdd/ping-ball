@@ -5,8 +5,9 @@ using UnityEngine;
 public class BallController : MonoBehaviour
 {
     public Rigidbody rb;
-    public float launchingForce = 5f;
-    public float pullingForce = 2.5f;
+    public float launchingForce = 35f;
+    public float pullingForce = 12f;
+    public float leftDrag = 1.8f;
     private bool isLaunched = false;
     
 
@@ -19,17 +20,18 @@ public class BallController : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        if (isLaunched) {
-            //rb.velocity = Vector3.forward * -1f * fallMultiplier * Time.deltaTime * 60f;
-            rb.AddForce(Vector3.forward * -1f * pullingForce * Time.deltaTime * 60f);
-        }
-        else
+
+        rb.AddForce(Vector3.forward * -1f * pullingForce * Time.deltaTime * 60f);
+
+        if (rb.velocity.z < 1f && isLaunched)
         {
-            if (Input.GetButton("Jump"))
-            {
-                rb.AddForce(Vector3.forward * launchingForce * Time.deltaTime * 60f, ForceMode.Impulse);
-                isLaunched = true;
-            }
+            rb.AddForce(Vector3.right * -1f * leftDrag * Time.deltaTime * 60f);
+        }
+        
+        if (Input.GetButton("Jump") && !isLaunched)
+        {
+            rb.AddForce(Vector3.forward * launchingForce * Time.deltaTime * 60f, ForceMode.Impulse);
+            isLaunched = true;
         }
     }
 }
