@@ -18,6 +18,7 @@ public class BallController : MonoBehaviour
     private float maxLeftDrag = 1.8f;
     // Destruction Vars
     private float waitTimeBeforeDestruction = 3.2f;
+    private bool destructionModeActivated = false;
     
 
     private void Awake() {
@@ -83,7 +84,7 @@ public class BallController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (isLaunched && other.tag == "Hit Detector")
+        if (isLaunched && other.tag == "Hit Detector" && !destructionModeActivated)
         {
             gameManagement.SetNextBall();
             StartCoroutine(SetObjectDestruction());
@@ -92,6 +93,7 @@ public class BallController : MonoBehaviour
 
     private IEnumerator SetObjectDestruction()
     {
+        destructionModeActivated = true;
         yield return new WaitForSeconds(waitTimeBeforeDestruction);
         Destroy(gameObject);
     }
