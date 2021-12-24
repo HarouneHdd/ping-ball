@@ -32,4 +32,9 @@ public class GameManagement : MonoBehaviour
     {
 
     }
+
+    public void OnGameRestart()
+    {
+        Debug.Log("Game RESTARTED!");
+    }
 }
