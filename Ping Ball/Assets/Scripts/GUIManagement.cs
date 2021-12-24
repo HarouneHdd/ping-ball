@@ -7,6 +7,6 @@ public class GUIManagement : MonoBehaviour
 
     public void UpdateScoreGUI(int curScore)
     {
-        scoreUI.SetText("Score: " + curScore);
+        scoreUI.SetText(curScore.ToString());
     }
 }
