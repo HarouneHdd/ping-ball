@@ -4,7 +4,7 @@ public class BallController : MonoBehaviour
 {
     private Rigidbody rb;
     // Launching Vars
-    private float baseLaunchingForce = 20f;
+    private float baseLaunchingForce = 22f;
     private float currentForceMag;
     private bool launch = false;
     private bool isLaunched = false;
