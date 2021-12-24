@@ -5,12 +5,17 @@ public class GameManagement : MonoBehaviour
 {
     private ScoreManagement scoreManagement;
     private GUIManagement guiManagement;
+    private ArrayList pointsRegisters;
     // Spawning Vars
     private Transform ballSpawnerTransform;
     public GameObject ballInstance;
-    private float waitTimeBeforeNextSpawning = 1.4f;
+    private const float waitTimeBeforeNextSpawning = 1.4f;
     // ---
-    private int chances = 3;
+    private const int chances = 4;
+    private int chancesRest = 4;
+    // Upon Restart
+    private bool gameIsRestarted = false;
+    // Upon Game Over
     private bool gameIsOver = false;
 
     private void Awake()
@@ -29,18 +34,51 @@ public class GameManagement : MonoBehaviour
             Debug.LogError("GUIManagement COMPONENT is needed!");
         }
 
+        pointsRegisters = new ArrayList();
+
         ballSpawnerTransform = GameObject.FindGameObjectWithTag("Ball Spawner").transform;
 
         if (ballSpawnerTransform == null)
         {
             Debug.LogError("Object with the TAG 'Ball Spawner' do NOT EXIST!");
         }
+
+        chancesRest = chances;
+        guiManagement.UpdateChancesGUI(chancesRest);
     }
 
     private void Start()
     {
-        guiManagement.UpdateChancesGUI(chances);
-        SpawnNextBall();
+        GetPointsRegisters();
+        StartCoroutine(WaitToSpawnAndUpdateUI());
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.R) && !gameIsRestarted)
+        {
+            OnGameRestart();
+        }
+    }
+
+    private void GetPointsRegisters()
+    {
+        GameObject[] hitDetectors = GameObject.FindGameObjectsWithTag("Hit Detector");
+
+        foreach (GameObject hitDetect in hitDetectors)
+        {
+            PointsRegister pr = hitDetect.GetComponent<PointsRegister>();
+
+            if (pr != null)
+            {
+                pointsRegisters.Add(pr);
+            }
+        }
+
+        if (pointsRegisters == null || pointsRegisters.Count == 0)
+        {
+            Debug.LogWarning("There are no objects that register points");
+        }
     }
 
     public void UpdateScore(int pointsAmount)
@@ -50,36 +88,30 @@ public class GameManagement : MonoBehaviour
 
     public void SetNextEvents()
     {
-        if (gameIsOver)
+        if (gameIsOver || gameIsRestarted)
         {
             return;
         }
 
-        if (chances < 0)
+        if (chancesRest <= 0)
         {
             gameIsOver = true;
             TriggerGameOver();
             return;
         }
 
-        UpdateChances();
-        StartCoroutine(WaitAndSpawnNextBall());
+        StartCoroutine(WaitToSpawnAndUpdateUI());
     }
 
-    public void OnGameRestart()
+    private void LassenChances()
     {
-        Debug.Log("Game RESTARTED!");
-    }
-
-    private void UpdateChances()
-    {
-        if (chances == 0)
+        if (chancesRest == 0 || gameIsOver || gameIsRestarted)
         {
             return;
         }
 
-        chances--;
-        guiManagement.UpdateChancesGUI(chances);
+        chancesRest--;
+        guiManagement.UpdateChancesGUI(chancesRest);
     }
 
     private void SpawnNextBall()
@@ -88,10 +120,44 @@ public class GameManagement : MonoBehaviour
         clone.transform.position = ballSpawnerTransform.position;
     }
 
-    private IEnumerator WaitAndSpawnNextBall()
+    private IEnumerator WaitToSpawnAndUpdateUI()
     {
         yield return new WaitForSeconds(waitTimeBeforeNextSpawning);
+        LassenChances();
         SpawnNextBall();
+    }
+
+    public void OnGameRestart()
+    {
+        gameIsRestarted = true;
+
+        chancesRest = chances;
+
+        // Reset UI
+        scoreManagement.ResetScore();
+        guiManagement.UpdateChancesGUI(chancesRest);
+
+        // ---
+        foreach (PointsRegister pr in pointsRegisters)
+        {
+            pr.ResetObjectValues();
+        }
+
+        StopAllCoroutines();
+
+        // Delete all existing balls
+        GameObject[] playerBalls = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject pBall in playerBalls)
+        {
+            Destroy(pBall);
+        }
+
+        // Setting the rest of variables back
+        gameIsOver = false;
+        gameIsRestarted = false;
+
+        // Initiating the next ball
+        StartCoroutine(WaitToSpawnAndUpdateUI());
     }
 
     private void TriggerGameOver()
