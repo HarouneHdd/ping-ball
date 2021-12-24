@@ -24,5 +24,6 @@ public class ScoreManagement : MonoBehaviour
     public void ResetScore()
     {
         currentScore = 0;
+        guiManagement.UpdateScoreGUI(currentScore);
     }
 }

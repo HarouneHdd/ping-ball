@@ -94,7 +94,7 @@ public class BallController : MonoBehaviour
     {
         if (isLaunched && other.tag == "Hit Detector" && !destructionModeActivated)
         {
-            gameManagement.SetNextBall();
+            gameManagement.SetNextEvents();
             StartCoroutine(SetObjectDestruction());
         }
     }
