@@ -341,6 +341,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1674800805}
+  - component: {fileID: 1674800808}
+  - component: {fileID: 1674800807}
+  - component: {fileID: 1674800806}
   m_Layer: 0
   m_Name: _Game Management
   m_TagString: Untagged
@@ -363,6 +366,42 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1674800806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674800804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82c7c7a7d036e6040aec378492f65e98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1674800807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674800804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcdfb3a8308d96b44ac918b7598c2755, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1674800808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674800804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e75ba08dad4ae14b9343180951bdbdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1333435169409171331
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -370,6 +409,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 149052636, guid: 259720bef0c0e524cadbf944aaa7739e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.238
+      objectReference: {fileID: 0}
+    - target: {fileID: 149052636, guid: 259720bef0c0e524cadbf944aaa7739e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109060577, guid: 259720bef0c0e524cadbf944aaa7739e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.885
+      objectReference: {fileID: 0}
     - target: {fileID: 2179429596994390692, guid: 259720bef0c0e524cadbf944aaa7739e, type: 3}
       propertyPath: m_Name
       value: Table
