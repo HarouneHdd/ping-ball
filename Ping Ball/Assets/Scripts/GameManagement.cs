@@ -55,9 +55,14 @@ public class GameManagement : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.R) && !gameIsRestarted)
+        if (Input.GetKeyUp(KeyCode.R) && !gameIsRestarted && !gameIsOver)
         {
-            OnGameRestart();
+            RestartGame();
+        }
+
+        if (gameIsOver && Input.GetButtonUp("Jump"))
+        {
+            RestartGame();
         }
     }
 
@@ -127,7 +132,7 @@ public class GameManagement : MonoBehaviour
         SpawnNextBall();
     }
 
-    public void OnGameRestart()
+    public void RestartGame()
     {
         gameIsRestarted = true;
 
@@ -135,7 +140,7 @@ public class GameManagement : MonoBehaviour
 
         // Reset UI
         scoreManagement.ResetScore();
-        guiManagement.UpdateChancesGUI(chancesRest);
+        guiManagement.OnRestart(chances);
 
         // ---
         foreach (PointsRegister pr in pointsRegisters)
@@ -162,6 +167,6 @@ public class GameManagement : MonoBehaviour
 
     private void TriggerGameOver()
     {
-
+        guiManagement.OnGameOver();
     }
 }
