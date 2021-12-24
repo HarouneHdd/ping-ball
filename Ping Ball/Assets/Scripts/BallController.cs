@@ -23,6 +23,12 @@ public class BallController : MonoBehaviour
 
     private void Awake() {
         gameManagement = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManagement>();
+        
+        if (gameManagement == null)
+        {
+            Debug.LogError("GameManagement COMPONENT is needed!");
+        }
+
         rb = GetComponent<Rigidbody>();
     }
 

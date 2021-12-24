@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Game Manager
+  - Hit Detector
+  - Player Col
+  - GUI
   layers:
   - Default
   - TransparentFX

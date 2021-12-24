@@ -24,6 +24,11 @@ public class PointsRegister : MonoBehaviour
 
         // Connecting with game manager
         gameManagement = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManagement>();
+
+        if (gameManagement == null)
+        {
+            Debug.LogError("GameManagement COMPONENT is needed!");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
