@@ -1,7 +1,9 @@
+using System.Collections;
 using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
+    private GameManagement gameManagement;
     private Rigidbody rb;
     // Launching Vars
     private float baseLaunchingForce = 22f;
@@ -14,9 +16,12 @@ public class BallController : MonoBehaviour
     // DTL Effect Vars
     private float minLeftDrag = 0.4f;
     private float maxLeftDrag = 1.8f;
+    // Destruction Vars
+    private float waitTimeBeforeDestruction = 3.2f;
     
 
     private void Awake() {
+        gameManagement = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManagement>();
         rb = GetComponent<Rigidbody>();
     }
 
@@ -74,5 +79,20 @@ public class BallController : MonoBehaviour
     private void ApplyDraggingToLeft()
     {
         rb.AddForce(Vector3.right * -1f * Random.Range(minLeftDrag, maxLeftDrag) * Time.deltaTime * 60f);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (isLaunched && other.tag == "Hit Detector")
+        {
+            gameManagement.SetNextBall();
+            StartCoroutine(SetObjectDestruction());
+        }
+    }
+
+    private IEnumerator SetObjectDestruction()
+    {
+        yield return new WaitForSeconds(waitTimeBeforeDestruction);
+        Destroy(gameObject);
     }
 }

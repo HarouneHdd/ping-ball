@@ -28,7 +28,7 @@ public class PointsRegister : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player Col")
+        if (other.tag == "Player Col" && !collidedWithPlayer)
         {
             if (pointsAmount == 0)
             {
@@ -39,5 +39,11 @@ public class PointsRegister : MonoBehaviour
             collidedWithPlayer = true;
             pointsUI.SetActive(false);
         }
+    }
+
+    public void ResetObjectValues()
+    {
+        collidedWithPlayer = false;
+        pointsUI.SetActive(true);
     }
 }

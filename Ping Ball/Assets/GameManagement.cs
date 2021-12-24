@@ -9,4 +9,9 @@ public class GameManagement : MonoBehaviour
     {
 
     }
+
+    public void SetNextBall()
+    {
+
+    }
 }
