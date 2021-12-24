@@ -1,18 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GUIManagement : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public TextMeshProUGUI scoreUI;
 
-    // Update is called once per frame
-    void Update()
+    public void UpdateScoreGUI(int curScore)
     {
-        
+        Debug.Log("Updating the score ui");
+        scoreUI.SetText("Score: " + curScore);
     }
 }

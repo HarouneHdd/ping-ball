@@ -1,18 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ScoreManagement : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private GUIManagement guiManagement;
+    private int currentScore = 0;
+
+    private void Awake()
     {
+        guiManagement = GetComponent<GUIManagement>();
         
+        if (guiManagement == null)
+        {
+            Debug.LogError("GUIManagement COMPONENT is needed!");
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AddToScore(int pointsAmount)
     {
-        
+        currentScore += pointsAmount;
+        guiManagement.UpdateScoreGUI(currentScore);
+    }
+
+    public void ResetScore()
+    {
+        currentScore = 0;
     }
 }
