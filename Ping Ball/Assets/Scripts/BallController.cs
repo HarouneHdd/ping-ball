@@ -18,6 +18,8 @@ public class BallController : MonoBehaviour
     private float maxLeftDrag = 1.8f;
     // Destruction Vars
     private float waitTimeBeforeDestruction = 3.2f;
+    private float wtbDestructionOnStay = 1.2f;
+    private float destructionTimerStart;
     private bool destructionModeActivated = false;
     
 
@@ -97,9 +99,24 @@ public class BallController : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (isLaunched && other.tag == "Hit Detector" && destructionModeActivated)
+        {
+            float timer = Time.time - destructionTimerStart;
+
+            // I added this code so that the old Ball won't interfere with the new one
+            if (timer >= wtbDestructionOnStay)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+
     private IEnumerator SetObjectDestruction()
     {
         destructionModeActivated = true;
+        destructionTimerStart = Time.time;
         yield return new WaitForSeconds(waitTimeBeforeDestruction);
         Destroy(gameObject);
     }
