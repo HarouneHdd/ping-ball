@@ -108,7 +108,7 @@ public class BallController : MonoBehaviour
             // I added this code so that the old Ball won't interfere with the new one
             if (timer >= wtbDestructionOnStay)
             {
-                Destroy(gameObject);
+                DestroyThisObject();
             }
         }
     }
@@ -118,6 +118,11 @@ public class BallController : MonoBehaviour
         destructionModeActivated = true;
         destructionTimerStart = Time.time;
         yield return new WaitForSeconds(waitTimeBeforeDestruction);
+        DestroyThisObject();
+    }
+
+    private void DestroyThisObject()
+    {
         Destroy(gameObject);
     }
 }
