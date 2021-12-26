@@ -5,7 +5,6 @@ public class GameManagement : MonoBehaviour
 {
     private ScoreManagement scoreManagement;
     private GUIManagement guiManagement;
-    private ArrayList pointsRegistersList;
     // Spawning Vars
     private Transform ballSpawnerTransform;
     public GameObject ballInstance;
@@ -34,8 +33,6 @@ public class GameManagement : MonoBehaviour
             Debug.LogError("GUIManagement COMPONENT is needed!");
         }
 
-        pointsRegistersList = new ArrayList();
-
         ballSpawnerTransform = GameObject.FindGameObjectWithTag("Ball Spawner").transform;
 
         if (ballSpawnerTransform == null)
@@ -49,7 +46,6 @@ public class GameManagement : MonoBehaviour
 
     private void Start()
     {
-        GetPointsRegisters();
         StartCoroutine(WaitToSpawnAndUpdateUI());
     }
 
@@ -63,26 +59,6 @@ public class GameManagement : MonoBehaviour
         if (gameIsOver && Input.GetButtonUp("Jump"))
         {
             RestartGame();
-        }
-    }
-
-    private void GetPointsRegisters()
-    {
-        GameObject[] hitDetectors = GameObject.FindGameObjectsWithTag("Hit Detector");
-
-        foreach (GameObject hitDetect in hitDetectors)
-        {
-            PointsRegister pr = hitDetect.GetComponent<PointsRegister>();
-
-            if (pr != null)
-            {
-                pointsRegistersList.Add(pr);
-            }
-        }
-
-        if (pointsRegistersList.Count == 0)
-        {
-            Debug.LogWarning("There are no objects that register points");
         }
     }
 
@@ -141,13 +117,8 @@ public class GameManagement : MonoBehaviour
         // Reset UI
         scoreManagement.ResetScore();
         guiManagement.OnRestart(chances);
-
-        // ---
-        foreach (PointsRegister pr in pointsRegistersList)
-        {
-            pr.ResetObjectValues();
-        }
-
+        
+        // Here we stop all coroutines to prevent any ball from respawning upon restarting the game
         StopAllCoroutines();
 
         // Delete all existing balls
