@@ -9,6 +9,7 @@ public class SoundManagement : MonoBehaviour
 
     private void Awake()
     {
+        // Getting audio source components on Game Manager and the Main Camera
         musicSrc = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>();
         sfxSrc = GetComponent<AudioSource>();
     }
@@ -35,6 +36,7 @@ public class SoundManagement : MonoBehaviour
         sfxSrc.volume = value;
     }
 
+    // Randomizing the pitch to add variety to the sound produced
     private float GetRandomPitchValue()
     {
         return Random.Range(0.8f, 1.2f);

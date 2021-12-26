@@ -60,6 +60,12 @@ public class GameManagement : MonoBehaviour
         {
             RestartGame();
         }
+
+        // Press Escape to get out of the game in the build version
+        if (Input.GetButtonUp("Escape"))
+        {
+            Application.Quit();
+        }
     }
 
     public void UpdateScore(int pointsAmount)
