@@ -4,6 +4,7 @@ using UnityEngine;
 public class BallController : MonoBehaviour
 {
     private GameManagement gameManagement;
+    private SoundManagement soundManagement;
     private Rigidbody rb;
     // Launching Vars
     private float baseLaunchingForce = 22f;
@@ -24,11 +25,20 @@ public class BallController : MonoBehaviour
     
 
     private void Awake() {
-        gameManagement = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManagement>();
+        GameObject gameManager = GameObject.FindGameObjectWithTag("Game Manager");
+
+        gameManagement = gameManager.GetComponent<GameManagement>();
         
         if (gameManagement == null)
         {
             Debug.LogError("GameManagement COMPONENT is needed!");
+        }
+
+        soundManagement = gameManager.GetComponent<SoundManagement>();
+
+        if (soundManagement == null)
+        {
+            Debug.LogError("SoundManagement COMPONENT is needed!");
         }
 
         rb = GetComponent<Rigidbody>();
@@ -75,6 +85,7 @@ public class BallController : MonoBehaviour
         }
 
         rb.AddForce(Vector3.forward * currentForceMag * Time.deltaTime * 60f, ForceMode.Impulse);
+        soundManagement.PlayLaunchingSound();
         isLaunched = true;
 
         launch = false;
@@ -111,6 +122,11 @@ public class BallController : MonoBehaviour
                 DestroyThisObject();
             }
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        soundManagement.PlayGettingHitSound();
     }
 
     private IEnumerator SetObjectDestruction()

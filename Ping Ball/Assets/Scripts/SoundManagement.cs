@@ -1,18 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundManagement : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private AudioSource musicSrc;
+    private AudioSource sfxSrc;
+    public AudioClip ballLaunchingSound;
+    public AudioClip ballGettingHitSound;
+
+    private void Awake()
     {
-        
+        musicSrc = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>();
+        sfxSrc = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void PlayLaunchingSound()
     {
-        
+        sfxSrc.pitch = GetRandomPitchValue();
+        sfxSrc.PlayOneShot(ballLaunchingSound);
+    }
+
+    public void PlayGettingHitSound()
+    {
+        sfxSrc.pitch = GetRandomPitchValue();
+        sfxSrc.PlayOneShot(ballGettingHitSound);
+    }
+
+    public void SetMusicVolume(float value)
+    {
+        musicSrc.volume = value;
+    }
+
+    public void SetSoundEffectsVolume(float value)
+    {
+        sfxSrc.volume = value;
+    }
+
+    private float GetRandomPitchValue()
+    {
+        return Random.Range(0.8f, 1.2f);
     }
 }
