@@ -5,14 +5,14 @@ public class GameManagement : MonoBehaviour
 {
     private ScoreManagement scoreManagement;
     private GUIManagement guiManagement;
-    private ArrayList pointsRegisters;
+    private ArrayList pointsRegistersList;
     // Spawning Vars
     private Transform ballSpawnerTransform;
     public GameObject ballInstance;
     private const float waitTimeBeforeNextSpawning = 1.4f;
     // ---
     private const int chances = 4;
-    private int chancesRest = 4;
+    private int chancesLeft = 4;
     // Upon Restart
     private bool gameIsRestarted = false;
     // Upon Game Over
@@ -34,7 +34,7 @@ public class GameManagement : MonoBehaviour
             Debug.LogError("GUIManagement COMPONENT is needed!");
         }
 
-        pointsRegisters = new ArrayList();
+        pointsRegistersList = new ArrayList();
 
         ballSpawnerTransform = GameObject.FindGameObjectWithTag("Ball Spawner").transform;
 
@@ -43,8 +43,8 @@ public class GameManagement : MonoBehaviour
             Debug.LogError("Object with the TAG 'Ball Spawner' do NOT EXIST!");
         }
 
-        chancesRest = chances;
-        guiManagement.UpdateChancesGUI(chancesRest);
+        chancesLeft = chances;
+        guiManagement.UpdateChancesGUI(chancesLeft);
     }
 
     private void Start()
@@ -76,11 +76,11 @@ public class GameManagement : MonoBehaviour
 
             if (pr != null)
             {
-                pointsRegisters.Add(pr);
+                pointsRegistersList.Add(pr);
             }
         }
 
-        if (pointsRegisters == null || pointsRegisters.Count == 0)
+        if (pointsRegistersList.Count == 0)
         {
             Debug.LogWarning("There are no objects that register points");
         }
@@ -98,7 +98,7 @@ public class GameManagement : MonoBehaviour
             return;
         }
 
-        if (chancesRest <= 0)
+        if (chancesLeft <= 0)
         {
             gameIsOver = true;
             TriggerGameOver();
@@ -110,13 +110,13 @@ public class GameManagement : MonoBehaviour
 
     private void LassenChances()
     {
-        if (chancesRest == 0 || gameIsOver || gameIsRestarted)
+        if (chancesLeft == 0 || gameIsOver || gameIsRestarted)
         {
             return;
         }
 
-        chancesRest--;
-        guiManagement.UpdateChancesGUI(chancesRest);
+        chancesLeft--;
+        guiManagement.UpdateChancesGUI(chancesLeft);
     }
 
     private void SpawnNextBall()
@@ -136,14 +136,14 @@ public class GameManagement : MonoBehaviour
     {
         gameIsRestarted = true;
 
-        chancesRest = chances;
+        chancesLeft = chances;
 
         // Reset UI
         scoreManagement.ResetScore();
         guiManagement.OnRestart(chances);
 
         // ---
-        foreach (PointsRegister pr in pointsRegisters)
+        foreach (PointsRegister pr in pointsRegistersList)
         {
             pr.ResetObjectValues();
         }
