@@ -62,7 +62,7 @@ public class GameManagement : MonoBehaviour
         }
 
         // Press Escape to get out of the game in the build version
-        if (Input.GetButtonUp("Escape"))
+        if (Input.GetKeyUp(KeyCode.Escape))
         {
             Application.Quit();
         }

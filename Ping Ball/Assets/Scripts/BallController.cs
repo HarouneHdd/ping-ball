@@ -85,6 +85,7 @@ public class BallController : MonoBehaviour
         }
 
         rb.AddForce(Vector3.forward * currentForceMag * Time.deltaTime * 60f, ForceMode.Impulse);
+        // Playing the launching sound
         soundManagement.PlayLaunchingSound();
         isLaunched = true;
 
@@ -123,9 +124,10 @@ public class BallController : MonoBehaviour
             }
         }
     }
-
+    
     private void OnCollisionEnter(Collision collision)
     {
+        // Play the sound effect when the Ball hits another collider
         soundManagement.PlayGettingHitSound();
     }
 
