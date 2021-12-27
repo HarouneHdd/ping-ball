@@ -19,14 +19,17 @@ public class PointsRegister : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // check the points amount of the object
         if (other.tag == "Player Col" && !collidingWithPlayer)
         {
             if (pointsAmount == 0)
             {
+                // notify the developer about the point amount
                 Debug.LogWarning("The amount of points is set to 0");
             }
 
             collidingWithPlayer = true;
+            // passing points amount to the gameManagement component (gameManagement class)
             gameManagement.UpdateScore(pointsAmount);
         }
     }

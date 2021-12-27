@@ -17,12 +17,14 @@ public class ScoreManagement : MonoBehaviour
 
     public void AddToScore(int pointsAmount)
     {
+        // passing points amount to the GUIManagement component (GUIManagement class)
         currentScore += pointsAmount;
         guiManagement.UpdateScoreGUI(currentScore);
     }
 
     public void ResetScore()
     {
+        // update UI on the reset
         currentScore = 0;
         guiManagement.UpdateScoreGUI(currentScore);
     }

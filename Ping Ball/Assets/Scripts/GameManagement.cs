@@ -6,6 +6,7 @@ public class GameManagement : MonoBehaviour
     private ScoreManagement scoreManagement;
     private GUIManagement guiManagement;
     // Spawning Vars
+    // Tranform includes the (position, rotation, scale)
     private Transform ballSpawnerTransform;
     public GameObject ballInstance;
     private const float waitTimeBeforeNextSpawning = 1.4f;
@@ -19,6 +20,7 @@ public class GameManagement : MonoBehaviour
 
     private void Awake()
     {
+        // get score manager as a component 
         scoreManagement = GetComponent<ScoreManagement>();
 
         if (scoreManagement == null)
@@ -33,6 +35,7 @@ public class GameManagement : MonoBehaviour
             Debug.LogError("GUIManagement COMPONENT is needed!");
         }
 
+        // get the ball spawner variables (position, rotation, scale)
         ballSpawnerTransform = GameObject.FindGameObjectWithTag("Ball Spawner").transform;
 
         if (ballSpawnerTransform == null)
@@ -41,6 +44,7 @@ public class GameManagement : MonoBehaviour
         }
 
         chancesLeft = chances;
+        // update chances number on the user interface
         guiManagement.UpdateChancesGUI(chancesLeft);
     }
 
@@ -51,6 +55,7 @@ public class GameManagement : MonoBehaviour
 
     private void Update()
     {
+        // restart game on pressing R button 
         if (Input.GetKeyUp(KeyCode.R) && !gameIsRestarted && !gameIsOver)
         {
             RestartGame();
@@ -70,6 +75,7 @@ public class GameManagement : MonoBehaviour
 
     public void UpdateScore(int pointsAmount)
     {
+        // passing points amount to the ScoreManagement component (ScoreManagement class)
         scoreManagement.AddToScore(pointsAmount);
     }
 
@@ -97,18 +103,21 @@ public class GameManagement : MonoBehaviour
             return;
         }
 
+        // passing points amount to the ScoreManagement component (ScoreManagement class)
         chancesLeft--;
         guiManagement.UpdateChancesGUI(chancesLeft);
     }
 
     private void SpawnNextBall()
     {
+        // create clone of the object specified 
         GameObject clone = Instantiate(ballInstance) as GameObject;
         clone.transform.position = ballSpawnerTransform.position;
     }
 
     private IEnumerator WaitToSpawnAndUpdateUI()
     {
+        // wait few secondes before applying the next functions 
         yield return new WaitForSeconds(waitTimeBeforeNextSpawning);
         LassenChances();
         SpawnNextBall();

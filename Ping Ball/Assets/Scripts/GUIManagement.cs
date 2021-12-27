@@ -58,11 +58,13 @@ public class GUIManagement : MonoBehaviour
 
     public void OnMusicSliderChange()
     {
+        // get trigger by the music slider
         soundManagement.SetMusicVolume(musicSlider.value);
     }
 
     public void OnSFXSliderChange()
     {
+        // trigger by sound effect slider
         soundManagement.SetSoundEffectsVolume(soundEffectsSlider.value);
     }
 }
